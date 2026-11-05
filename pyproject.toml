@@ -64,6 +64,7 @@ dev = [
     "mknotebooks==0.8.*",
     "pytest>=5.3.2",
     "pytest-runner>=5.1",
+    "pytest-xdist>=3.0",
     "torch_optimizer",
 ]
 

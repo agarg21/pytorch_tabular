@@ -50,8 +50,13 @@ jobs:
       - name: Show installed packages
         run: uv pip list
 
+      - name: Fetch test datasets once, before workers start
+        run: |
+          python -c "from sklearn.datasets import fetch_california_housing as a, fetch_covtype as b; a(data_home='data'); b(data_home='data')"
+          python -m pytest --collect-only -q > /dev/null
+
       - name: Run test-suite
-        run: python -m pytest -v
+        run: python -m pytest -v -n logical
 
   test-deps-2024:
     runs-on: ${{ matrix.os }}
@@ -86,8 +91,13 @@ jobs:
       - name: Show installed packages
         run: uv pip list
 
+      - name: Fetch test datasets once, before workers start
+        run: |
+          python -c "from sklearn.datasets import fetch_california_housing as a, fetch_covtype as b; a(data_home='data'); b(data_home='data')"
+          python -m pytest --collect-only -q > /dev/null
+
       - name: Run test-suite
-        run: python -m pytest -v
+        run: python -m pytest -v -n logical
 
   test-all-extras:
     runs-on: ${{ matrix.os }}
@@ -137,8 +147,13 @@ jobs:
           path: tests/.datasets
           key: test-datasets
 
+      - name: Fetch test datasets once, before workers start
+        run: |
+          python -c "from sklearn.datasets import fetch_california_housing as a, fetch_covtype as b; a(data_home='data'); b(data_home='data')"
+          python -m pytest --collect-only -q > /dev/null
+
       - name: Run test-suite
-        run: python -m pytest -v
+        run: python -m pytest -v -n logical
 
       - name: Save test's datasets
         uses: actions/cache/save@v6
